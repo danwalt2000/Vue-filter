@@ -1,0 +1,41 @@
+
+.centered{
+  text-align: center;
+}
+
+body {
+  font-family: 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif;
+  text-rendering: optimizelegibility;
+  -moz-osx-font-smoothing: grayscale;
+  -moz-text-size-adjust: none;
+}
+
+h1,.muted {
+  color: #2c3e5099;
+}
+
+h1 {
+  font-size: 26px;
+  font-weight: 600;
+}
+
+#app {
+  margin: 1em auto;
+}
+.hidden{
+  display: none;
+}
+.flexbox{
+  display: flex;
+  margin: 0 auto;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="js/libs/vue-select/dist/vue-select.css">
+    <link rel="stylesheet" href="https://unpkg.com/vue-range-component@1.0.3/dist/vue-range-slider.min.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Vue filter</title>
+    <script src="js/libs/vue-range-component/dist/vue-range-slider.js"></script>
+</head>
+<body>
+<div id="app">
+    <div class="container">
+        <div class="row">
+            <div class="col-3 filter-col">
+
+                <div v-on:click="clearAll" class="btn btn-primary">Очистить фильтр</div>
+
+                <h1>Страна</h1>
+                <v-select v-model="selectCountry" :options="options" taggable push-tags></v-select>
+                <h1>Тип</h1>
+                <v-select v-model="selectedRoom" :options="room" :searchable="false" taggable push-tags></v-select>
+                <div class="stars-wrapper">
+                    <h1>Звезды</h1>
+                    <div>
+                        <input v-model="numberOfStars" type="checkbox" id="1-star" value="1">
+                        <label for="1-star">1 звезда</label>
+                    </div>
+                    <div>
+                        <input v-model="numberOfStars" type="checkbox" id="2-stars" value="2">
+                        <label for="2-stars">2 звезды</label>
+                    </div>
+                    <div>
+                        <input v-model="numberOfStars" type="checkbox" id="3-stars" value="3">
+                        <label for="3-stars">3 звезды</label>
+                    </div>
+                    <div>
+                        <input v-model="numberOfStars" type="checkbox" id="4-stars" value="4">
+                        <label for="4-stars">4 звезды</label>
+                    </div>
+                    <div>
+                        <input v-model="numberOfStars" type="checkbox" id="5-stars" value="5">
+                        <label for="5-stars">5 звезд</label>
+                    </div>
+                </div>
+                <h1>Количество отзывов от</h1>
+                <input v-model="numberOfReviews" type="number" min="0" step="1">
+                <h1>Цена до</h1>
+                <div class="app-content">
+                    <vue-range-slider v-model="rangeValue" :min="prices[0]" :max="prices[1]" ></vue-range-slider>
+                    <p class="centered"> {{ rangeValue }}</p>
+                </div>
+                <br />
+                <div v-on:click="totalFilter" class="btn btn-primary">Применить фильтр</div>
+
+            </div>
+            <div class="col-9 output-col">
+                <div class="row">
+                    <div class="col-4">
+                        <h1>Название</h1>
+                    </div>
+                    <div class="col-8">
+                        <h1>Описание</h1>
+                    </div>
+                </div>
+
+                  <div v-for="hotel in onlyThreeItems">
+                    <div class="row">
+                      <div class="col-3">
+                            <div :key="hotel.name">
+                                {{ hotel.name }}
+                            </div>
+                      </div>
+                    <div class="col-7">
+                            <div :key="hotel.description">
+                                {{ hotel.description }}
+                            </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="btn btn-light">Забронировать</div>
+                    </div>
+                  </div>
+
+                 </div>
+
+                <h1 v-bind:class="{ hidden: areThereHotels }">{{ noHotels }}</h1>
+                <br />
+                <div class="flexbox" v-if="filteredHotels.length > 3">
+                    <div class="btn btn-link" v-on:click="firstPage">1</div>
+                    <div class="btn btn-link" v-on:click="nextPage">2</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="js/libs/vue.js"></script>
+<script src="js/libs/vue-select/dist/vue-select.js"></script>
+<script src="js/libs/vue-range-component/dist/vue-range-slider.js"></script>
+<script src="js/main.js"></script>
+
+</body>
+</html>
