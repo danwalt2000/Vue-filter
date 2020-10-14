@@ -34,7 +34,6 @@ new Vue({
                 this.hotelsList = hotels;
                 this.filteredHotels = hotels;
                 this.onlyThreeItems = this.filteredHotels.slice(0, 3);
-                var countryList = [];
                 for(var i = 0; i < hotels.length; i++){
                     if(!this.room.includes(hotels[i].type)){
                         this.room.push(hotels[i].type);
