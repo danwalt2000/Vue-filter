@@ -22,9 +22,9 @@ new Vue({
             areThereHotels: true,
             onlyThreeItems: [],
         }
-
     },
     mounted() {
+        //запрос базы отелей
         fetch('./hotels/hotels.json')
             .then(response => response.json())
             .then((response)=>{
@@ -35,18 +35,12 @@ new Vue({
                 this.filteredHotels = hotels;
                 this.onlyThreeItems = this.filteredHotels.slice(0, 3);
                 for(var i = 0; i < hotels.length; i++){
-                    if(!this.room.includes(hotels[i].type)){
-                        this.room.push(hotels[i].type);
-                    }
-                    if(!this.options.includes(hotels[i].country)){
-                        this.options.push(hotels[i].country);
-                    }
-                    if(!this.countries.includes(hotels[i].country)){
-                        this.countries.push(hotels[i].country);
-                    }
-                    if(!prices.includes(hotels[i].min_price)){
-                        prices.push(hotels[i].min_price);
-                    }
+
+                    this.pushIfNotContains(this.room, hotels[i], 'type');
+                    this.pushIfNotContains(this.options, hotels[i], 'country');
+                    this.pushIfNotContains(this.countries, hotels[i], 'country');
+                    this.pushIfNotContains(prices, hotels[i], 'min_price');
+
                 }
                 prices.sort();
                 if(!this.prices.includes(prices[0]) && !this.prices.includes(prices[prices.length - 1])) {
@@ -55,10 +49,21 @@ new Vue({
                     this.rangeValue = this.prices[0];
                 }
             }).catch(error => console.log("Error while getting base" + error));
-
-
     },
     methods:{
+        //функция добавляет свойство объекта/объект в массив, если такой позиции в массиве еще нет
+    	pushIfNotContains: function(arr, obj, sub){
+    	    if(sub){
+                if(!arr.includes(obj[sub])){
+                    return arr.push(obj[sub]);
+                }
+            } else{
+                if(!arr.includes(obj)){
+                    return arr.push(obj);
+                }
+            }
+    	},
+        //функции фильтров по различным опциям
         filterByCountries: function() {
             var filtered = [];
             for(var i = 0; i < this.hotelsList.length; i++){
@@ -93,7 +98,7 @@ new Vue({
             var filtered = [];
             var price = this.rangeValue;
             for(var i = 0; i < this.hotelsList.length; i++){
-                if(this.hotelsList[i].min_price < price){
+                if(this.hotelsList[i].min_price <= price){
                     filtered.push(this.hotelsList[i]);
                 }
             }
@@ -109,6 +114,7 @@ new Vue({
             }
             return (filtered.length) ? filtered : this.hotelsList;
         },
+        //функция, собирающая позиции со всех фильтров и возвращающая результат
         totalFilter: function(){
             this.areThereHotels = true;
             var filteredByCountries = this.filterByCountries();
@@ -124,9 +130,7 @@ new Vue({
                         continue checkResultInAllFilters;
                     }
                 }
-                if(!result.includes(this.hotelsList[i])){
-                    result.push(this.hotelsList[i]);
-                }
+                this.pushIfNotContains(result, this.hotelsList[i]);
 
             }
             this.filteredHotels = [];
