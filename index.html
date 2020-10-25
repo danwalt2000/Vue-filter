@@ -49,7 +49,7 @@
                 <h1>Количество отзывов от</h1>
                 <input v-model="numberOfReviews" type="number" min="0" step="1">
                 <h1>Цена до</h1>
-                <div class="app-content">
+                <div v-on:click="eventPriceRange = true;" class="app-content">
                     <vue-range-slider v-model="rangeValue" :min="prices[0]" :max="prices[1]" ></vue-range-slider>
                     <p class="centered"> {{ rangeValue }}</p>
                 </div>

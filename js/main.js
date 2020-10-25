@@ -21,6 +21,7 @@ new Vue({
             noHotels: "Записей не найдено",
             areThereHotels: true,
             onlyThreeItems: [],
+            eventPriceRange: false,
         }
     },
     mounted() {
@@ -96,12 +97,17 @@ new Vue({
         },
         filterByPrice: function() {
             var filtered = [];
-            var price = this.rangeValue;
+            if(this.eventPriceRange){
+                var price = this.rangeValue;
+            } else{
+                var price = this.prices[1];
+            }
             for(var i = 0; i < this.hotelsList.length; i++){
                 if(this.hotelsList[i].min_price <= price){
                     filtered.push(this.hotelsList[i]);
                 }
             }
+
             return (filtered.length) ? filtered : this.hotelsList;
         },
         filterByReviewNumber: function() {
@@ -152,6 +158,7 @@ new Vue({
             this.filteredHotels = this.hotelsList;
             this.areThereHotels = true;
             this.firstPage();
+            this.eventPriceRange = false;
         }
     }
 }).$mount('#app');
